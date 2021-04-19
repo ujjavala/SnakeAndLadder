@@ -51,7 +51,7 @@ public class GameService {
         board.getPlayerPieces().put(player.getName(), newPosition);
     }
 
-    private int getTotalValueAfterDiceRolls() {
+    private int getTotalValue() {
         logger.info("getting  totla value");
         return !Constants.DICE_TYPE.equals("FAIR") ? rollEven() : roll();
     }
@@ -62,7 +62,7 @@ public class GameService {
         return playerPosition == winningPosition;
     }
 
-    private boolean isGameCompleted() {
+    private boolean isGameOver() {
         int currentNumberOfPlayers = players.size();
         return currentNumberOfPlayers < initialNumberOfPlayers;
     }
@@ -70,8 +70,8 @@ public class GameService {
     public void startGame() {
         logger.info("starting game");
 
-        while (!isGameCompleted()) {
-            int totalDiceValue = getTotalValueAfterDiceRolls();
+        while (!isGameOver()) {
+            int totalDiceValue = getTotalValue();
             Player currentPlayer = players.poll();
             assert currentPlayer != null;
             movePlayer(currentPlayer, totalDiceValue);
