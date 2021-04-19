@@ -25,15 +25,21 @@ public class GameInputService {
 
         System.out.println("Number of snakes:");
         int noOfSnakes = scanner.nextInt();
-        System.out.println("Enter start and end for each snake");
+        System.out.println("Enter start and end for each snake within 1 to 100");
         snakes = IntStream.range(0, noOfSnakes).mapToObj(element -> new Snake(scanner.nextInt(), scanner.nextInt())).collect(Collectors.toList());
 
         System.out.println("Number of ladders:");
         int noOfLadders = scanner.nextInt();
-        System.out.println("Enter start and end for each ladder");
+        System.out.println("Enter start and end for each ladder within 1 to 100");
         ladders = IntStream.range(0, noOfLadders).mapToObj(element -> new Ladder(scanner.nextInt(), scanner.nextInt())).collect(Collectors.toList());
 
     }
+
+    public boolean validateInput(int start, int end)
+    {
+        return start < end && start >= 0 && start < 100 && end <= 100;
+    }
+
 
     public List<Snake> getSnakes() {
         return snakes;
