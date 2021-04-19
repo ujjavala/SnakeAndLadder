@@ -77,7 +77,7 @@ public class GameService {
             movePlayer(currentPlayer, totalDiceValue);
             if (hasPlayerWon(currentPlayer)) {
                 winner = currentPlayer.getName();
-                board.getPlayerPieces().remove(currentPlayer.getId());
+                board.getPlayerPieces().remove(currentPlayer.getName());
             } else {
                 players.add(currentPlayer);
             }

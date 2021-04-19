@@ -20,7 +20,6 @@ public class GameServiceTest {
     @Test
     public void shouldExecuteGame(){
 
-
         Map<String,Integer> initialPlayer = new HashMap<>();
         Queue<Player> player = new LinkedList<>();
         player.add(new Player("ujjavala"));
