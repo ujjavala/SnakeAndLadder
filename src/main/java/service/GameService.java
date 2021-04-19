@@ -7,6 +7,7 @@ import model.Snake;
 import util.Constants;
 
 import java.util.Queue;
+import java.util.logging.Logger;
 
 import static service.DiceService.roll;
 import static service.DiceService.rollEven;
@@ -16,14 +17,18 @@ public class GameService {
     private final int initialNumberOfPlayers;
     private final Queue<Player> players;
     private String winner;
+    static Logger logger = Logger.getLogger(GameService.class.getName());
 
     public GameService(BoardService boardService) {
-         board = boardService.createBoard();
-         players = boardService.getPlayers();
+        logger.info("initializing game service");
+        board = boardService.createBoard();
+        players = boardService.getPlayers();
         initialNumberOfPlayers = players.size();
     }
 
     private int getNewPosition(int newPosition) {
+        logger.info("getting new position");
+
         int previousPosition;
         do {
             previousPosition = newPosition;
@@ -37,6 +42,8 @@ public class GameService {
     }
 
     private void movePlayer(Player player, int positions) {
+        logger.info("moving player");
+
         int oldPosition = board.getPlayerPieces().get(player.getName());
         int newPosition = oldPosition + positions;
         int boardSize = board.getSize();
@@ -45,6 +52,7 @@ public class GameService {
     }
 
     private int getTotalValueAfterDiceRolls() {
+        logger.info("getting  totla value");
         return !Constants.DICE_TYPE.equals("FAIR") ? rollEven() : roll();
     }
 
@@ -60,6 +68,8 @@ public class GameService {
     }
 
     public void startGame() {
+        logger.info("starting game");
+
         while (!isGameCompleted()) {
             int totalDiceValue = getTotalValueAfterDiceRolls();
             Player currentPlayer = players.poll();
@@ -75,6 +85,7 @@ public class GameService {
     }
 
     public String getWinner() {
+        logger.info("returning winner");
         return winner;
     }
 
