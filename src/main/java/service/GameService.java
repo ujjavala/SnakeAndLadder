@@ -37,11 +37,11 @@ public class GameService {
     }
 
     private void movePlayer(Player player, int positions) {
-        int oldPosition = board.getPlayerPieces().get(player.getId());
+        int oldPosition = board.getPlayerPieces().get(player.getName());
         int newPosition = oldPosition + positions;
         int boardSize = board.getSize();
         newPosition = newPosition > boardSize ? oldPosition : getNewPosition(newPosition);
-        board.getPlayerPieces().put(player.getId(), newPosition);
+        board.getPlayerPieces().put(player.getName(), newPosition);
     }
 
     private int getTotalValueAfterDiceRolls() {
@@ -49,7 +49,7 @@ public class GameService {
     }
 
     private boolean hasPlayerWon(Player player) {
-        int playerPosition = board.getPlayerPieces().get(player.getId());
+        int playerPosition = board.getPlayerPieces().get(player.getName());
         int winningPosition = board.getSize();
         return playerPosition == winningPosition;
     }

@@ -33,7 +33,7 @@ public class BoardService {
         Map<String, Integer> playerPieces = new HashMap<>();
         for (Player player : gamePlayers) {
             this.players.add(player);
-            playerPieces.put(player.getId(), 0);
+            playerPieces.put(player.getName(), 0);
             board = new Board(DEFAULT_BOARD_SIZE, snakes, ladders, playerPieces);
         }
         return board;
