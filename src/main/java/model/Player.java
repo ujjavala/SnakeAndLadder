@@ -4,8 +4,8 @@ import java.util.UUID;
 
 public class Player {
 
-    private String name;
-    private String id;
+    private final String name;
+    private final String id;
 
     public Player(String name) {
         this.name = name;

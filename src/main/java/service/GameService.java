@@ -8,8 +8,8 @@ import util.Constants;
 
 import java.util.Queue;
 
-import static model.Dice.roll;
-import static model.Dice.rollEven;
+import static service.DiceService.roll;
+import static service.DiceService.rollEven;
 
 public class GameService {
     private final Board board;

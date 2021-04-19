@@ -5,10 +5,10 @@ import java.util.Map;
 
 public class Board {
 
-    private int size;
-    private List<Snake> snakes;
-    private List<Ladder> ladders;
-    private Map<String, Integer> playerPieces;
+    private final int size;
+    private final List<Snake> snakes;
+    private final List<Ladder> ladders;
+    private final Map<String, Integer> playerPieces;
 
     public Board(int size, List<Snake> snakes, List<Ladder> ladders, Map<String, Integer> playerPieces) {
         this.size = size;

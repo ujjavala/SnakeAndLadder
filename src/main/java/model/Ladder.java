@@ -1,8 +1,8 @@
 package model;
 
 public class Ladder {
-    private int start;
-    private int end;
+    private final int start;
+    private final int end;
 
     public Ladder(int start, int end) {
         this.start = start;
