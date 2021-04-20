@@ -6,35 +6,53 @@ import model.Player;
 import model.Snake;
 import util.Constants;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 import java.util.logging.Logger;
 
-import static service.DiceService.roll;
-import static service.DiceService.rollEven;
+//import static service.DiceService.roll;
+//import static service.DiceService.rollEven;
 
 public class GameService {
     private final Board board;
     private final int initialNumberOfPlayers;
     private final Queue<Player> players;
     private String winner;
+    private List<Player> greenSnakeBittenPlayersList = new ArrayList<>();
+    private DiceService diceService;
+
+    public void addBittenPlayers(Player player) {
+        greenSnakeBittenPlayersList.add(player);
+    }
+
     static Logger logger = Logger.getLogger(GameService.class.getName());
 
-    public GameService(BoardService boardService) {
+
+    public GameService(BoardService boardService,DiceService diceService) {
         logger.info("initializing game service");
         board = boardService.createBoard();
         players = boardService.getPlayers();
         initialNumberOfPlayers = players.size();
+        this.diceService = diceService;
     }
 
-    private int getNewPosition(int newPosition) {
+    private int getNewPosition(int newPosition, Player player) {
         logger.info("getting new position");
-
         int previousPosition;
         do {
             previousPosition = newPosition;
-            for (Snake snake : board.getSnakes())
-                if (snake.getStart() == newPosition) newPosition = snake.getEnd();
-
+            for (Snake snake : board.getSnakes()) {
+                if (snake.getStart() == newPosition) {
+                    if (snake.getStart() == Constants.GREEN_SNAKE_START && greenSnakeBittenPlayersList.contains(player))
+                        newPosition = snake.getStart();
+                   else {
+                        if(snake.getStart() == Constants.GREEN_SNAKE_START && !greenSnakeBittenPlayersList.contains(player))
+                            addBittenPlayers(player);
+                        newPosition = snake.getEnd();
+                    }
+                }
+            }
             for (Ladder ladder : board.getLadders())
                 if (ladder.getStart() == newPosition) newPosition = ladder.getEnd();
         } while (newPosition != previousPosition);
@@ -47,13 +65,13 @@ public class GameService {
         int oldPosition = board.getPlayerPieces().get(player.getName());
         int newPosition = oldPosition + positions;
         int boardSize = board.getSize();
-        newPosition = newPosition > boardSize ? oldPosition : getNewPosition(newPosition);
+        newPosition = newPosition > boardSize ? oldPosition : getNewPosition(newPosition, player);
         board.getPlayerPieces().put(player.getName(), newPosition);
     }
 
     private int getTotalValue() {
         logger.info("getting  totla value");
-        return !Constants.DICE_TYPE.equals("FAIR") ? rollEven() : roll();
+        return !Constants.DICE_TYPE.equals("FAIR") ? diceService.rollEven() : diceService.roll();
     }
 
     private boolean hasPlayerWon(Player player) {
